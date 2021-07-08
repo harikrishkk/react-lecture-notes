@@ -120,3 +120,7 @@ module.exports = {
       </div>
     </div>
 ```
+
+## Add craco alias
+
+`npm i -D craco-alias`
