@@ -12,7 +12,12 @@ const App = () => {
   return (
     <div className="h-full p-6 bg-gray-200">
       <Navbar />
-      <User user={user} />
+      <User user={user}>
+        <div className="card-actions mb-4">
+          <div className="badge badge-ghost">Music</div>
+          <div className="badge badge-ghost">Photography</div>
+        </div>
+      </User>
     </div>
   );
 };

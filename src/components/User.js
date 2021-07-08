@@ -12,6 +12,7 @@ const User = (props) => {
         <h2 className="card-title">
           {first_name} {last_name}
         </h2>
+        {props.children}
         <p>Email: {email}</p>
         <div className="justify-end card-actions">
           <button className="btn btn-secondary">More info</button>
