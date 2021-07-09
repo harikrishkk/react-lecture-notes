@@ -132,3 +132,7 @@ module.exports = {
 ## Add tailwind typography plugin
 
 `npm install @tailwindcss/typography`
+
+## Add propTypes
+
+`npm install --save prop-types`

@@ -1,5 +1,6 @@
 import React from 'react';
 import Rating from './Rating';
+import PropTypes from 'prop-types';
 
 const User = (props) => {
   const { first_name, last_name, email, avatar, rating } = props.user;
@@ -22,6 +23,16 @@ const User = (props) => {
       </div>
     </div>
   );
+};
+
+User.propTypes = {
+  user: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+    avatar: PropTypes.string,
+    rating: PropTypes.number,
+  }),
 };
 
 export default User;
