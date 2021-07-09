@@ -1,7 +1,8 @@
 import React from 'react';
+import Rating from './Rating';
 
 const User = (props) => {
-  const { first_name, last_name, email, avatar } = props.user;
+  const { first_name, last_name, email, avatar, rating } = props.user;
 
   return (
     <div className="card bordered">
@@ -13,7 +14,8 @@ const User = (props) => {
           {first_name} {last_name}
         </h2>
         {props.children}
-        <p>Email: {email}</p>
+        <p className="prose-sm">Email: {email}</p>
+        <Rating rating={rating} />
         <div className="justify-end card-actions">
           <button className="btn btn-secondary">More info</button>
         </div>

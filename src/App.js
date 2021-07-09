@@ -7,6 +7,7 @@ const user = {
   first_name: 'John',
   last_name: 'Doe',
   avatar: 'https://reqres.in/img/faces/1-image.jpg',
+  rating: 4,
 };
 const App = () => {
   return (

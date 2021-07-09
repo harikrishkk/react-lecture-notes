@@ -124,3 +124,11 @@ module.exports = {
 ## Add craco alias
 
 `npm i -D craco-alias`
+
+## Add react icons
+
+`npm install react-icons --save`
+
+## Add tailwind typography plugin
+
+`npm install @tailwindcss/typography`
