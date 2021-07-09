@@ -27,7 +27,12 @@ const User = (props) => {
         <p className="prose-sm">Email: {email}</p>
         <Rating rating={rating} />
         <div className="justify-end card-actions">
-          <button className="btn btn-secondary">More info</button>
+          <button
+            onClick={() => props.onUserSelect(props.user)}
+            className="btn btn-secondary"
+          >
+            More info
+          </button>
         </div>
       </div>
     </div>
@@ -42,6 +47,7 @@ User.propTypes = {
     avatar: PropTypes.string,
     rating: PropTypes.number,
     hobbies: PropTypes.arrayOf(PropTypes.string),
+    onUserSelect: PropTypes.func,
   }),
 };
 
