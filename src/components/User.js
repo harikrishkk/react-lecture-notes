@@ -3,7 +3,7 @@ import Rating from './Rating';
 import PropTypes from 'prop-types';
 
 const User = (props) => {
-  const { first_name, last_name, email, avatar, rating } = props.user;
+  const { first_name, last_name, email, avatar, rating, hobbies } = props.user;
 
   return (
     <div className="card bordered">
@@ -14,7 +14,16 @@ const User = (props) => {
         <h2 className="card-title">
           {first_name} {last_name}
         </h2>
-        {props.children}
+        {hobbies.length > 0 && (
+          <div className="card-actions mb-4">
+            {hobbies.map((hobby, index) => (
+              <div key={index}>
+                <div className="badge badge-ghost">{hobby}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
         <p className="prose-sm">Email: {email}</p>
         <Rating rating={rating} />
         <div className="justify-end card-actions">
@@ -32,6 +41,7 @@ User.propTypes = {
     email: PropTypes.string,
     avatar: PropTypes.string,
     rating: PropTypes.number,
+    hobbies: PropTypes.arrayOf(PropTypes.string),
   }),
 };
 
