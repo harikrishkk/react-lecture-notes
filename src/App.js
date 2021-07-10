@@ -3,18 +3,23 @@ import Navbar from '@components/Navbar';
 import { users } from './users.data';
 import Notification from '@components/Notification';
 import { useState } from 'react';
+import UserForm from '@components/UserForm';
 
 const App = () => {
   const [userData, setUserData] = useState(users);
   const [currentUser, setCurrentUser] = useState();
   const handleUserSelect = (user) => {
-    // But how will we pass the user details to the Message component?
-    // We need to handle a piece of state here.
-    // Also, Notification component need to be shown upon selection only.
     setCurrentUser(user);
   };
   const handleClose = () => {
     setCurrentUser(null);
+  };
+
+  const handleUserAdd = (newUser) => {
+    const newId = parseInt(userData.length + 1);
+    newUser.id = newId;
+    const newUsers = [...userData, newUser];
+    setUserData(newUsers);
   };
   return (
     <div className="h-full p-6 bg-gray-200">
@@ -31,6 +36,8 @@ const App = () => {
           <User onUserSelect={handleUserSelect} key={user.id} user={user} />
         ))}
       </div>
+
+      <UserForm onUserAdd={handleUserAdd} />
     </div>
   );
 };
