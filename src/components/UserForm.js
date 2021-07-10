@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-
+import Input from './Input';
 import Modal from './Modal';
+import SelectControls from './SelectControls';
+
 const UserForm = ({ onUserAdd }) => {
   const INIT_STATE = {
     music: false,
@@ -86,176 +88,47 @@ const UserForm = ({ onUserAdd }) => {
         <div className="card shadow bg-white mt-4">
           <div className="card-body">
             <div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">First name</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="first name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  className="input input-bordered"
-                />
-              </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Last name</span>
-                </label>
-                <input
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="last name"
-                  className="input input-bordered"
-                />
-              </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Email</span>
-                </label>
-                <input
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="input input-bordered"
-                />
-              </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Rating</span>
-                </label>
-                <input
-                  type="number"
-                  placeholder="Rating"
-                  value={rating}
-                  onChange={(e) => setRating(e.target.value)}
-                  className="input input-bordered"
-                />
-              </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Avatar</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Avatar"
-                  value={avatar}
-                  onChange={(e) => setAvatar(e.target.value)}
-                  className="input input-bordered"
-                />
-              </div>
-              <div className="form-control mt-4">
-                <label className="label">
-                  <span className="label-text">Hobbies</span>
-                </label>
-                <div className="form-control">
-                  <label className="cursor-pointer label">
-                    <span className="label-text"> Music </span>
-                    <div>
-                      <input
-                        type="checkbox"
-                        value={hobbies.music}
-                        checked={hobbies.music}
-                        onChange={() => handleCheckbox('music')}
-                        className="checkbox"
-                      />
-                      <span className="checkbox-mark"></span>
-                    </div>
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label className="cursor-pointer label">
-                    <span className="label-text"> Photography </span>
-                    <div>
-                      <input
-                        type="checkbox"
-                        value={hobbies.photography}
-                        checked={hobbies.photography}
-                        onChange={() => handleCheckbox('photography')}
-                        className="checkbox"
-                      />
-                      <span className="checkbox-mark"></span>
-                    </div>
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label className="cursor-pointer label">
-                    <span className="label-text"> Dance </span>
-                    <div>
-                      <input
-                        type="checkbox"
-                        value={hobbies.dance}
-                        checked={hobbies.dance}
-                        onChange={() => handleCheckbox('dance')}
-                        className="checkbox"
-                      />
-                      <span className="checkbox-mark"></span>
-                    </div>
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label className="cursor-pointer label">
-                    <span className="label-text"> Programming </span>
-                    <div>
-                      <input
-                        type="checkbox"
-                        value={hobbies.programming}
-                        checked={hobbies.programming}
-                        onChange={() => handleCheckbox('programming')}
-                        className="checkbox"
-                      />
-                      <span className="checkbox-mark"></span>
-                    </div>
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label className="cursor-pointer label">
-                    <span className="label-text"> Cooking </span>
-                    <div>
-                      <input
-                        type="checkbox"
-                        value={hobbies.cooking}
-                        checked={hobbies.cooking}
-                        onChange={() => handleCheckbox('cooking')}
-                        className="checkbox"
-                      />
-                      <span className="checkbox-mark"></span>
-                    </div>
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label className="cursor-pointer label">
-                    <span className="label-text"> Marathon </span>
-                    <div>
-                      <input
-                        type="checkbox"
-                        value={hobbies.marathon}
-                        checked={hobbies.marathon}
-                        onChange={() => handleCheckbox('marathon')}
-                        className="checkbox"
-                      />
-                      <span className="checkbox-mark"></span>
-                    </div>
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label className="cursor-pointer label">
-                    <span className="label-text"> Gardening </span>
-                    <div>
-                      <input
-                        type="checkbox"
-                        value={hobbies.gardening}
-                        checked={hobbies.gardening}
-                        onChange={() => handleCheckbox('gardening')}
-                        className="checkbox"
-                      />
-                      <span className="checkbox-mark"></span>
-                    </div>
-                  </label>
-                </div>
-              </div>
+              <Input
+                labelName="First Name"
+                value={firstName}
+                onInputChange={(e) => setFirstName(e.target.value)}
+                placeholder="First Name"
+              />
+
+              <Input
+                labelName="Last Name"
+                value={lastName}
+                onInputChange={(e) => setLastName(e.target.value)}
+                placeholder="Last Name"
+              />
+
+              <Input
+                labelName="Email"
+                value={email}
+                type="email"
+                onInputChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+              />
+
+              <Input
+                labelName="Rating"
+                value={rating}
+                type="number"
+                onInputChange={(e) => setRating(e.target.value)}
+                placeholder="Email"
+              />
+
+              <Input
+                labelName="Avatar"
+                value={avatar}
+                onInputChange={(e) => setAvatar(e.target.value)}
+                placeholder="Avatar"
+              />
+
+              <SelectControls
+                hobbies={hobbies}
+                onCheckboxChange={(v) => handleCheckbox(v)}
+              />
 
               <button
                 className="btn btn-active mt-4 float-right w-full"
