@@ -1,18 +1,26 @@
 import User from '@components/User';
 import Navbar from '@components/Navbar';
 import Notification from '@components/Notification';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import UserForm from '@components/UserForm';
 import Newsletter from '@components/Newsletter';
 import axios from 'axios';
+import { reducer, INIT_STATE } from './store/userReducer';
+
+import {
+  fetchUserFail,
+  fetchUserInit,
+  fetchUserSuccess,
+} from './store/userActions';
 
 const App = () => {
-  const [userData, setUserData] = useState([]);
   const [currentUser, setCurrentUser] = useState();
   const [counter, setCounter] = useState(0);
   const [visible, setVisible] = useState(true);
+  const [state, dispatch] = useReducer(reducer, INIT_STATE);
 
   useEffect(() => {
+    fetchUserInit(dispatch);
     console.log(`${counter}: Featching data from Backend..`);
     axios
       .get('https://react-notes-2673f-default-rtdb.firebaseio.com/users.json')
@@ -24,7 +32,10 @@ const App = () => {
             id: item,
           });
         });
-        setUserData(responseArr);
+        fetchUserSuccess(dispatch, responseArr);
+      })
+      .catch((e) => {
+        fetchUserFail(dispatch);
       });
     return () => {
       // cleanup.
@@ -46,9 +57,13 @@ const App = () => {
   const handleUserAdd = (newUser) => {
     const newId = parseInt(userData.length + 1);
     newUser.id = newId;
-    const newUsers = [...userData, newUser];
-    setUserData(newUsers);
+    // const newUsers = [...userData, newUser];
+    // setUserData(newUsers);
   };
+  const { userData, loading } = state;
+  if (loading) {
+    return <h1> Loading.. </h1>;
+  }
   return (
     <div className="h-full p-6 bg-gray-200">
       <Navbar />

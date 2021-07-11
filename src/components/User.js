@@ -1,18 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Rating from './Rating';
 import PropTypes from 'prop-types';
 
 const User = (props) => {
   const { first_name, last_name, email, avatar, rating, hobbies } = props.user;
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     console.log('Timer triggered.');
-  //   }, 2000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
 
   return (
     <div className="card bordered">
