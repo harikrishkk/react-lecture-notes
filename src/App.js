@@ -4,44 +4,23 @@ import Notification from '@components/Notification';
 import { useState, useEffect, useReducer } from 'react';
 import UserForm from '@components/UserForm';
 import Newsletter from '@components/Newsletter';
-import axios from 'axios';
 import { reducer, INIT_STATE } from './store/userReducer';
-
-import {
-  fetchUserFail,
-  fetchUserInit,
-  fetchUserSuccess,
-} from './store/userActions';
-
+import { useAxios } from './store/useAxios';
 const App = () => {
   const [currentUser, setCurrentUser] = useState();
   const [counter, setCounter] = useState(0);
   const [visible, setVisible] = useState(true);
   const [state, dispatch] = useReducer(reducer, INIT_STATE);
+  const { fetchUserData } = useAxios(dispatch);
 
   useEffect(() => {
-    fetchUserInit(dispatch);
     console.log(`${counter}: Featching data from Backend..`);
-    axios
-      .get('https://react-notes-2673f-default-rtdb.firebaseio.com/users.json')
-      .then((data) => {
-        const responseArr = [];
-        Object.keys(data.data).forEach((item) => {
-          responseArr.push({
-            ...data.data[item],
-            id: item,
-          });
-        });
-        fetchUserSuccess(dispatch, responseArr);
-      })
-      .catch((e) => {
-        fetchUserFail(dispatch);
-      });
+    fetchUserData(true);
     return () => {
       // cleanup.
       console.log('Will run once before the next time useEffect runs again.');
     };
-  }, [counter]);
+  }, [counter, fetchUserData]);
 
   const increment = () => {
     setCounter((c) => c + 1);
