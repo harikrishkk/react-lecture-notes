@@ -1,17 +1,17 @@
 import User from '@components/User';
 import Navbar from '@components/Navbar';
 import Notification from '@components/Notification';
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect } from 'react';
 import UserForm from '@components/UserForm';
 import Newsletter from '@components/Newsletter';
-import { reducer, INIT_STATE } from './store/userReducer';
 import { useAxios } from './store/useAxios';
+
 const App = () => {
   const [currentUser, setCurrentUser] = useState();
   const [counter, setCounter] = useState(0);
   const [visible, setVisible] = useState(true);
-  const [state, dispatch] = useReducer(reducer, INIT_STATE);
-  const { fetchUserData } = useAxios(dispatch);
+
+  const { fetchUserData, data: userData, loading, error } = useAxios();
 
   useEffect(() => {
     console.log(`${counter}: Featching data from Backend..`);
@@ -34,14 +34,22 @@ const App = () => {
   };
 
   const handleUserAdd = (newUser) => {
-    const newId = parseInt(userData.length + 1);
-    newUser.id = newId;
+    // const newId = parseInt(userData.length + 1);
+    // newUser.id = newId;
     // const newUsers = [...userData, newUser];
     // setUserData(newUsers);
   };
-  const { userData, loading } = state;
+
   if (loading) {
     return <h1> Loading.. </h1>;
+  }
+
+  if (error) {
+    return <h1> Oops! Error while loading user data</h1>;
+  }
+
+  if (userData.length === 0) {
+    return <h1> No users to display </h1>;
   }
   return (
     <div className="h-full p-6 bg-gray-200">
