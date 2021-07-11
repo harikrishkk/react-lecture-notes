@@ -4,7 +4,7 @@ import { users } from './users.data';
 import Notification from '@components/Notification';
 import { useState } from 'react';
 import UserForm from '@components/UserForm';
-
+import Newsletter from '@components/Newsletter';
 const App = () => {
   const [userData, setUserData] = useState(users);
   const [currentUser, setCurrentUser] = useState();
@@ -38,6 +38,7 @@ const App = () => {
       </div>
 
       <UserForm onUserAdd={handleUserAdd} />
+      <Newsletter />
     </div>
   );
 };
