@@ -1,10 +1,11 @@
-import User from '@components/User';
+import UserList from '@components/UserList';
 import Navbar from '@components/Navbar';
 import Notification from '@components/Notification';
 import { useState, useEffect } from 'react';
 import UserForm from '@components/UserForm';
 import Newsletter from '@components/Newsletter';
 import { useAxios } from './store/useAxios';
+import UserContext from './context/UserContext';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState();
@@ -34,11 +35,6 @@ const App = () => {
   };
 
   const handleUserAdd = (newUser) => {
-    console.log('new user', newUser);
-    // const newId = parseInt(userData.length + 1);
-    // newUser.id = newId;
-    // const newUsers = [...userData, newUser];
-    // setUserData(newUsers);
     fetchUserData(true, {
       method: 'post',
       url: '/users.json',
@@ -57,35 +53,37 @@ const App = () => {
   if (userData.length === 0) {
     return <h1> No users to display </h1>;
   }
+
+  const userCtx = {
+    users: userData,
+    addUser: handleUserAdd,
+    userSelect: handleUserSelect,
+  };
   return (
-    <div className="h-full p-6 bg-gray-200">
-      <Navbar />
-      {currentUser && (
-        <Notification
-          onClose={handleClose}
-          message={`Selected user is ${currentUser.first_name}`}
-        />
-      )}
+    <UserContext.Provider value={userCtx}>
+      <div className="h-full p-6 bg-gray-200">
+        <Navbar />
+        {currentUser && (
+          <Notification
+            onClose={handleClose}
+            message={`Selected user is ${currentUser.first_name}`}
+          />
+        )}
 
-      <div className="py-4 flex flex-row-reverse">
-        <button onClick={increment} className="btn btn-sm">
-          Increment
-        </button>
-        <button onClick={() => setVisible((v) => !v)} className="btn btn-sm">
-          Toggle Users
-        </button>
-      </div>
-      {visible && (
-        <div className="grid grid-cols-2 gap-4">
-          {userData.map((user) => (
-            <User onUserSelect={handleUserSelect} key={user.id} user={user} />
-          ))}
+        <div className="py-4 flex flex-row-reverse">
+          <button onClick={increment} className="btn btn-sm">
+            Increment
+          </button>
+          <button onClick={() => setVisible((v) => !v)} className="btn btn-sm">
+            Toggle Users
+          </button>
         </div>
-      )}
+        {visible && <UserList />}
 
-      <UserForm onUserAdd={handleUserAdd} />
-      <Newsletter />
-    </div>
+        <UserForm />
+        <Newsletter />
+      </div>
+    </UserContext.Provider>
   );
 };
 

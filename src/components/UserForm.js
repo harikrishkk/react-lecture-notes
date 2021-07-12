@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Input from './Input';
 import Modal from './Modal';
 import SelectControls from './SelectControls';
+import UserContext from '../context/UserContext';
 
-const UserForm = ({ onUserAdd }) => {
+const UserForm = () => {
+  const userCtx = useContext(UserContext);
   const INIT_STATE = {
     music: false,
     photography: false,
@@ -63,7 +65,7 @@ const UserForm = ({ onUserAdd }) => {
 
     setModalVisible(false);
 
-    onUserAdd(user);
+    userCtx.addUser(user);
     reset();
   };
 
