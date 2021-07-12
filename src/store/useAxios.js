@@ -16,26 +16,34 @@ export const useAxios = () => {
       return;
     }
 
-    const defaultInit = {
-      method: 'get',
-      url: '/users.json',
-    };
+    if (!config) {
+      config = {
+        method: 'get',
+        url: '/users.json',
+      };
+    }
 
     setLoading(true);
 
-    axios((config = defaultInit))
+    axios(config)
       .then((data) => {
-        const responseArr = [];
-        Object.keys(data.data).forEach((item) => {
-          responseArr.push({
-            ...data.data[item],
-            id: item,
+        if (config.method === 'get') {
+          const responseArr = [];
+          Object.keys(data.data).forEach((item) => {
+            responseArr.push({
+              ...data.data[item],
+              id: item,
+            });
           });
-        });
+          setData(responseArr);
+        }
+        if (config.method === 'post') {
+          console.log('Data posted success: ', data);
+          fetchUserData(true);
+        }
         setLoading(false);
         setLoaded(true);
         setError(null);
-        setData(responseArr);
       })
       .catch((e) => {
         setLoading(false);

@@ -34,10 +34,16 @@ const App = () => {
   };
 
   const handleUserAdd = (newUser) => {
+    console.log('new user', newUser);
     // const newId = parseInt(userData.length + 1);
     // newUser.id = newId;
     // const newUsers = [...userData, newUser];
     // setUserData(newUsers);
+    fetchUserData(true, {
+      method: 'post',
+      url: '/users.json',
+      data: newUser,
+    });
   };
 
   if (loading) {
