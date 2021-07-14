@@ -13,6 +13,8 @@ module.exports = {
         baseUrl: './',
         aliases: {
           '@components': './src/components',
+          '@userStore': './src/store/users',
+          '@api': './src/api',
         },
       },
     },

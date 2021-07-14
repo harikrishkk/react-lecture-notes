@@ -1,89 +1,75 @@
-import UserList from '@components/UserList';
-import Navbar from '@components/Navbar';
-import Notification from '@components/Notification';
+import { fetchAllUsers, resetUser } from '@userStore/users.actions';
+import {
+  selectCurrentUser,
+  selectAllUsers,
+  selectIsLoading,
+  selectIsLoaded,
+  selectIsError,
+} from '@userStore/users.selectors';
+import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
-import UserForm from '@components/UserForm';
+import Navbar from '@components/Navbar';
 import Newsletter from '@components/Newsletter';
-import { useAxios } from './store/useAxios';
-import UserContext from './context/UserContext';
+import Notification from '@components/Notification';
+import UserForm from '@components/UserForm';
+import UserList from '@components/UserList';
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState();
-  const [counter, setCounter] = useState(0);
+  // Local states for the App
   const [visible, setVisible] = useState(true);
 
-  const { fetchUserData, data: userData, loading, error } = useAxios();
+  // Selectors handling a slice of the app state
+  const users = useSelector(selectAllUsers);
+  const isLoading = useSelector(selectIsLoading);
+  const isLoaded = useSelector(selectIsLoaded);
+  const isError = useSelector(selectIsError);
+  const currentUser = useSelector(selectCurrentUser);
 
+  // Dispatch to dispatch an action to modify state
+  const dispatch = useDispatch();
+
+  // Once the component is loaded, fetch all users
   useEffect(() => {
-    console.log(`${counter}: Featching data from Backend..`);
-    fetchUserData(true);
-    return () => {
-      // cleanup.
-      console.log('Will run once before the next time useEffect runs again.');
-    };
-  }, [counter, fetchUserData]);
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
 
-  const increment = () => {
-    setCounter((c) => c + 1);
-  };
-
-  const handleUserSelect = (user) => {
-    setCurrentUser(user);
-  };
   const handleClose = () => {
-    setCurrentUser(null);
+    dispatch(resetUser());
   };
 
-  const handleUserAdd = (newUser) => {
-    fetchUserData(true, {
-      method: 'post',
-      url: '/users.json',
-      data: newUser,
-    });
-  };
-
-  if (loading) {
+  if (isLoading) {
     return <h1> Loading.. </h1>;
   }
 
-  if (error) {
+  if (isError) {
     return <h1> Oops! Error while loading user data</h1>;
   }
 
-  if (userData.length === 0) {
+  if (isLoaded && users.length === 0) {
     return <h1> No users to display </h1>;
   }
 
-  const userCtx = {
-    users: userData,
-    addUser: handleUserAdd,
-    userSelect: handleUserSelect,
-  };
   return (
-    <UserContext.Provider value={userCtx}>
-      <div className="h-full p-6 bg-gray-200">
-        <Navbar />
-        {currentUser && (
-          <Notification
-            onClose={handleClose}
-            message={`Selected user is ${currentUser.first_name}`}
-          />
-        )}
+    <div className="h-full p-6 bg-gray-200">
+      <Navbar />
 
-        <div className="py-4 flex flex-row-reverse">
-          <button onClick={increment} className="btn btn-sm">
-            Increment
-          </button>
-          <button onClick={() => setVisible((v) => !v)} className="btn btn-sm">
-            Toggle Users
-          </button>
-        </div>
-        {visible && <UserList />}
+      {currentUser && (
+        <Notification
+          onClose={handleClose}
+          message={`Selected user is ${currentUser.first_name}`}
+        />
+      )}
 
-        <UserForm />
-        <Newsletter />
+      <div className="py-4 flex flex-row-reverse">
+        <button onClick={() => setVisible((v) => !v)} className="btn btn-sm">
+          Toggle Users
+        </button>
       </div>
-    </UserContext.Provider>
+      {visible && <UserList />}
+
+      <UserForm />
+      <Newsletter />
+    </div>
   );
 };
 

@@ -1,11 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import Input from './Input';
 import Modal from './Modal';
 import SelectControls from './SelectControls';
-import UserContext from '../context/UserContext';
+import { useDispatch } from 'react-redux';
+import * as actions from '@userStore/users.actions';
 
 const UserForm = () => {
-  const userCtx = useContext(UserContext);
+  const dispatch = useDispatch();
+  // Decide if we need them locally, or app wide
   const INIT_STATE = {
     music: false,
     photography: false,
@@ -15,6 +17,8 @@ const UserForm = () => {
     marathon: false,
     gardening: false,
   };
+
+  // Local states
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -64,8 +68,8 @@ const UserForm = () => {
     };
 
     setModalVisible(false);
-
-    userCtx.addUser(user);
+    // Dispatch an action to add new user to DB and state
+    dispatch(actions.addNewUser(user));
     reset();
   };
 
